@@ -1,6 +1,6 @@
 import React from "react";
 
-const SortRepo = ({ onSort, sortType }) => {
+const SortRepos = ({ onSort, sortType }) => {
   const BUTTONS = [
     { type: "recent", text: "Most Recent" },
     { type: "stars", text: "Most Stars" },
@@ -22,4 +22,4 @@ const SortRepo = ({ onSort, sortType }) => {
   );
 };
 
-export default SortRepo;
+export default SortRepos;

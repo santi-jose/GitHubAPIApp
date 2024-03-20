@@ -1,4 +1,5 @@
 import { formatMemberSince } from "../utils/functions";
+import LikeProfile from "./LikeProfile"
 
 const ProfileInfo = ({ userProfile }) => {
   // const userProfile = {

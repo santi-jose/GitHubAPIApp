@@ -1,6 +1,6 @@
 
 import Search from "../components/Search"
-import SortRepo from "../components/SortRepos"
+import SortRepos from "../components/SortRepos"
 import ProfileInfo from "../components/ProfileInfo"
 import Repos from "../components/Repos"
 import Spinner from "../components/Spinner"
@@ -8,73 +8,78 @@ import Spinner from "../components/Spinner"
 import { useCallback, useEffect, useState } from "react"
 import { toast } from "react-hot-toast"
 
-const HomePage = () => {
-  const [userProfile, setUserProfile] = useState(null); // user is null until sought for
-	const [repos, setRepos] = useState([]); // repos is an array so that we can loop over and render
-	const [loading, setLoading] = useState(false); // loading is false initially, until a new user is requested
-	const [sortType, setSortType] = useState("recent"); // this is the first category the repos will sorted into
-
-  const getUserProfileAndRepos = useCallback(async (username = "santi-jose") => {
-		setLoading(true);
+function Homepage() {
+	const [userProfile, setUserProfile] = useState(null); // user is null until sought for
+	  const [repos, setRepos] = useState([]); // repos is an array so that we can loop over and render
+	  const [loading, setLoading] = useState(false); // loading is false initially, until a new user is requested
+	  const [sortType, setSortType] = useState("recent"); // this is the first category the repos will sorted into
+	
+	const getUserProfileAndRepos = useCallback(
+	  async (username = "vivianaalba") => {
+			setLoading(true);
 		try {
-			const res = await fetch(`/api/users/profile/${username}`);
-			const { repos, userProfile } = await res.json();
-
-			repos.sort((a, b) => new Date(b.created_at) - new Date(a.created_at)); //descending, recent first
-
-			setRepos(repos);
-			setUserProfile(userProfile);
-
-			return { userProfile, repos };
+		  const res = await fetch(`/api/users/profile/${username}`); // error points to here
+		  const { repos, userProfile } = await res.json();
+  
+		  // sorting method
+		  repos.sort((a, b) => new Date(b.created_at) - new Date(a.created_at)); //descending, recent first
+  
+		  setRepos(repos);
+		  setUserProfile(userProfile);
+  
+		  return { userProfile, repos };
 		} catch (error) {
-			toast.error(error.message);
+		  toast.error(error.message);
 		} finally {
-			setLoading(false);
+		  setLoading(false);
 		}
-	}, []);
-
+		}, 
+	[]);
+  
 	useEffect(() => {
-		getUserProfileAndRepos();
-	}, [getUserProfileAndRepos]);
-
+		  getUserProfileAndRepos();
+	  }, [getUserProfileAndRepos]);
+  
 	const onSearch = async (e, username) => {
-		e.preventDefault();
-
-		setLoading(true);
-		setRepos([]);
-		setUserProfile(null);
-
-		const { userProfile, repos } = await getUserProfileAndRepos(username);
-
-		setUserProfile(userProfile);
-		setRepos(repos);
-		setLoading(false);
-		setSortType("recent");
-	};
-
+		  // avoids reloading page so we do not lose data
+		  e.preventDefault();
+  
+		  // state management
+		  setLoading(true);
+		  setRepos([]);
+		  setUserProfile(null);
+  
+		  const { userProfile, repos } = await getUserProfileAndRepos(username);
+  
+		  setUserProfile(userProfile);
+		  setRepos(repos);
+		  setLoading(false);
+		  setSortType("recent");
+	  };
+  
 	const onSort = (sortType) => {
-		if (sortType === "recent") {
-			repos.sort((a, b) => new Date(b.created_at) - new Date(a.created_at)); //descending, recent first
-		} else if (sortType === "stars") {
-			repos.sort((a, b) => b.stargazers_count - a.stargazers_count); //descending, most stars first
-		} else if (sortType === "forks") {
-			repos.sort((a, b) => b.forks_count - a.forks_count); //descending, most forks first
-		}
-		setSortType(sortType);
-		setRepos([...repos]);
-	};
-
+		  if (sortType === "recent") {
+			  repos.sort((a, b) => new Date(b.created_at) - new Date(a.created_at)); //descending, recent first
+		  } else if (sortType === "stars") {
+			  repos.sort((a, b) => b.stargazers_count - a.stargazers_count); //descending, most stars first
+		  } else if (sortType === "forks") {
+			  repos.sort((a, b) => b.forks_count - a.forks_count); //descending, most forks first
+		  }
+		  setSortType(sortType);
+		  setRepos([...repos]);
+	  };
+  
 	return (
-		<div>
-			<Search onSearch={onSearch} />
-			{repos.length > 0 && <SortRepo onSort={onSort} sortType={sortType} />}
-			<div>
-				{userProfile && !loading && <ProfileInfo userProfile={userProfile} />}
-				{!loading && <Repos repos={repos} />}
-				{loading && <Spinner />}
-			</div>
-		</div>
-	);
-}
-
-export default HomePage
+		  <div>
+			  <Search onSearch={onSearch} />
+			  {repos.length > 0 && <SortRepos onSort={onSort} sortType={sortType} />}
+			  <div>
+				  {userProfile && !loading && <ProfileInfo userProfile={userProfile} />}
+				  {!loading && <Repos repos={repos} />}
+				  {loading && <Spinner />}
+			  </div>
+		  </div>
+	  );
+  }
+  
+  export default Homepage;
