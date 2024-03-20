@@ -15,7 +15,7 @@ function Homepage() {
 	  const [sortType, setSortType] = useState("recent"); // this is the first category the repos will sorted into
 	
 	const getUserProfileAndRepos = useCallback(
-	  async (username = "vivianaalba") => {
+	  async (username = "santi-jose") => {
 			setLoading(true);
 		try {
 		  const res = await fetch(`/api/users/profile/${username}`); // error points to here
