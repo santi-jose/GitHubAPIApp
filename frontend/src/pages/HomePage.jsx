@@ -50,6 +50,7 @@ function HomePage() {
 		  setUserProfile(null);
   
 		  const { userProfile, repos } = await getUserProfileAndRepos(username);
+		  console.log(`${userProfile}: ${repos}`);
   
 		  setUserProfile(userProfile);
 		  setRepos(repos);
