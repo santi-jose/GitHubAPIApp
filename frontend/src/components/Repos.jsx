@@ -6,7 +6,6 @@ const Repos = ({ repos }) => {
     <div>
       <ol>
         {repos.map((repo) => {
-          {console.log(repo)}
           return(
             <Repo key={repo.id} repo={repo} />
           )
