@@ -1,5 +1,5 @@
 import { formatMemberSince } from "../utils/functions";
-import LikeProfile from "./LikeProfile"
+import LikeProfile from "./LikeProfile";
 
 const ProfileInfo = ({ userProfile }) => {
   // const userProfile = {
@@ -96,6 +96,10 @@ const ProfileInfo = ({ userProfile }) => {
         {/* Following count */}
         <div>
           <p>Following: {userProfile?.following}</p>
+        </div>
+        {/* Number of public repos */}
+        <div>
+          <p>Public repos: {userProfile?.public_repos}</p>
         </div>
         {/* Number of public gists */}
         <div>
