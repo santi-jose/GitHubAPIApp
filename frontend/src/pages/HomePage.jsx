@@ -8,7 +8,7 @@ import Spinner from "../components/Spinner"
 import { useCallback, useEffect, useState } from "react"
 import { toast } from "react-hot-toast"
 
-function Homepage() {
+function HomePage() {
 	const [userProfile, setUserProfile] = useState(null); // user is null until sought for
 	  const [repos, setRepos] = useState([]); // repos is an array so that we can loop over and render
 	  const [loading, setLoading] = useState(false); // loading is false initially, until a new user is requested
@@ -82,4 +82,4 @@ function Homepage() {
 	  );
   }
   
-  export default Homepage;
+  export default HomePage;
